@@ -12,40 +12,48 @@ const service = new ProductService()
 
 //Se cambia el "app" por el "router"
 //Se quita el URL de products
-router.get('/', (req, res) => {
-    const products = service.find();
+router.get('/', async (req, res) => {
+    const products = await service.find();
     res.json(products)
 });
 
-router.get("/filter", (req, res) => {
+router.get("/filter", async (req, res) => {
     res.send('Yo soy un filter');
 });
 
-router.get("/:id", (req, res) => {
+router.get("/:id", async (req, res) => {
     const { id } = req.params;
-    const product = service.findOne(id);
+    const product = await service.findOne(id);
     res.json(product);
 });
 
 //Creacion de un nuevo product
-router.post('/', (req, res)=>{
+router.post('/', async (req, res)=>{
     const body = req.body;
-    const newProduct = service.create(body);
+    const newProduct = await service.create(body);
     res.status(201).json(newProduct);
 })
 
-router.patch('/:id', (req, res)=>{
-  const { id } = req.params;
-  const body = req.body;
+router.patch('/:id', async (req, res)=>{
+  //Para contralar los errores si no existe el id
+  try{
+    const { id } = req.params;
+    const body = req.body;
 
-  const updataCategory = service.update(id, body);
-  res.status(200).json(updataCategory);
+    const product = await service.update(id, body);
+    res.status(200).json(product);
+  }catch(error){
+    res.status(404).json({
+      message: error
+    });
+  }
+
 });
 
-router.delete('/:id', (req, res)=>{
+router.delete('/:id', async (req, res)=>{
   const { id } = req.params;
 
-  const deleteCategory = service.delete(id);
+  const deleteCategory = await service.delete(id);
   res.status(200).json(deleteCategory);
 })
 

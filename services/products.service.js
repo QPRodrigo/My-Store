@@ -2,7 +2,7 @@ const faker = require('faker');
 
 //Creamos la clase
 class ProductService{
-    
+
     //Se trabajara con array por mientras que no tenemos BD
     constructor(){
         this.products = [];
@@ -25,7 +25,7 @@ class ProductService{
     }
 
     //Metodo para crear, el id se crea automaticamente
-    create(data){
+    async create(data){
         const newProduct = {
            id: faker.datatype.uuid(),
            ...data
@@ -34,15 +34,15 @@ class ProductService{
         return newProduct;
     }
 
-    find(){
+    async find(){
         return this.products;
     }
 
-    findOne(id){
+    async findOne(id){
         return this.products.find(item => item.id === id);
     }
 
-    update (id, changes) {
+    async update (id, changes) {
         const index = this.products.findIndex(item => item.id === id);
         if(index === -1){
             throw new Error('Ups, Not Found');
@@ -56,11 +56,11 @@ class ProductService{
         return this.products[index];
     }
 
-    delete (id) {
+    async delete (id) {
         const index = this.categories.findIndex(item => item.id === id);
         if(index === -1){
             throw new Error('Ups, Not Found');
-        } 
+        }
         this.categories.splice(index, 1);
         return {
             delete: true
