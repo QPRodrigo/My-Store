@@ -1,8 +1,11 @@
 // traemos a express
 const express = require("express");
-
 //Exportamos los modulos del archivo routes/index
 const routerApi = require('./routes');
+
+// Importar middleware
+ //importar las funciones que se utilizarán
+const { logErrors, errorHandler } = require('./middlewares/errorHandler');
 
 // creamos una aplicación
 const app = express();
@@ -26,7 +29,9 @@ app.get("/Nueva-ruta", (req, res) => {
 
 
 routerApi(app);
-
+// Utilizamos los middleware. Siempre deben ir después del routing:
+app.use(logErrors);
+app.use(errorHandler);
 
 //le decimos a la aplicación en que puesto escuchar
 // además creamos un callback que nos avisará cuando esté corriendo

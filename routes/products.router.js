@@ -21,11 +21,17 @@ router.get("/filter", async (req, res) => {
     res.send('Yo soy un filter');
 });
 
-router.get("/:id", async (req, res) => {
+// Encontrar un producto por su id:
+router.get('/:id', async (req, res, next) => { //se agrega el next
+  try {
     const { id } = req.params;
     const product = await service.findOne(id);
     res.json(product);
+  } catch (error) {
+    next(error); //se agrega el next para atrapar de forma explicita el error con el middleware
+  }
 });
+
 
 //Creacion de un nuevo product
 router.post('/', async (req, res)=>{
