@@ -5,7 +5,7 @@ const routerApi = require('./routes');
 
 // Importar middleware
 //importar las funciones que se utilizarán
-const { logErrors, boomErrorHandler, errorHandler} = require('./middlewares/errorHandler');
+const { logErrors, boomErrorHandler, errorHandler} = require('./middlewares/error.handler');
 
 // creamos una aplicación
 const app = express();

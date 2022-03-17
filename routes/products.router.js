@@ -47,20 +47,17 @@ router.patch('/:id', async (req, res)=>{
     const body = req.body;
 
     const product = await service.update(id, body);
-    res.status(200).json(product);
+    res.json(product);
   }catch(error){
-    res.status(404).json({
-      message: error
-    });
+    next(error);
   }
 
 });
 
 router.delete('/:id', async (req, res)=>{
   const { id } = req.params;
-
-  const deleteCategory = await service.delete(id);
-  res.status(200).json(deleteCategory);
+  const rta = await service.delete(id);
+  res.json(rta);
 })
 
 

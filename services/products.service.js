@@ -37,8 +37,12 @@ class ProductService{
         return newProduct;
     }
 
-    async find(){
-        return this.products;
+    find() {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve(this.products);
+          }, 3000);
+        })
     }
 
     async findOne(id){
@@ -53,31 +57,29 @@ class ProductService{
         return product;
     }
 
-    async update (id, changes) {
+    async update(id, changes) {
         const index = this.products.findIndex(item => item.id === id);
-        if(index === -1){
-            throw boom.notFound('product not found');
+        if (index === -1) {
+          throw boom.notFound('product not found');
         }
-        //Para que no se reemplace todo completamente
         const product = this.products[index];
         this.products[index] = {
-          product,
-          changes
-        }
+          ...product,
+          ...changes
+        };
         return this.products[index];
     }
 
-    async delete (id) {
-        const index = this.categories.findIndex(item => item.id === id);
-        if(index === -1){
-            throw boom.notFound('product not found');
+    async delete(id) {
+        const index = this.products.findIndex(item => item.id === id);
+        if (index === -1) {
+          throw boom.notFound('product not found');
         }
-        this.categories.splice(index, 1);
-        return {
-            delete: true
-        }
+        this.products.splice(index, 1);
+        return { 
+            id 
+        };
     }
-
 }
 
 //Exportamos la clase

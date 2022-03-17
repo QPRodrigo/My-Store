@@ -18,7 +18,7 @@ function errorHandler(err, req, res, next) {
       message: err.message,
       //mostrar info del error
       stack: err.stack,
-  })
+  });
 }
 
 function boomErrorHandler(err, req, res, next) {
